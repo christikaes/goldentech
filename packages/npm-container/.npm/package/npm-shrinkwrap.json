@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "fitbit-node": {
+      "version": "1.0.0",
+      "dependencies": {
+        "bluebird": {
+          "version": "2.10.2"
+        },
+        "oauth": {
+          "version": "0.9.14"
+        }
+      }
+    }
+  }
+}
