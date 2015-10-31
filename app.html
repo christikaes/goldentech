@@ -3,10 +3,84 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Golden Tech</h1>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+
+<template name="home">
+    <h2>Home</h2>
+    {{#if currentUser}}
+    	{{ userType }}
+    	<!-- <div class="form-group"> -->
+	        <button class="logout btn btn-default" >
+		    	Logout
+		    </button>
+
+		    <button class="fitbitSetup btn btn-default">
+		    	Setup Fitbit
+		    </button>
+
+		    <button class="fitbitInfo btn btn-default">
+		    	Fitbit Info
+		    </button>
+		 <!-- </div> -->
+    {{else}}
+    	<!-- <div class="form-group"> -->
+		    <button class="login btn btn-default">
+		    	Login
+		    </button>
+		    <button class="register btn btn-default">
+		    	Register
+		    </button>
+		<!-- </div> -->
+    {{/if}}
+</template>
+
+
+<template name="register">
+    <h2>Register</h2>
+    <h3>{{message}}</h3>
+    <form class="register">
+    	<div class="form-group">
+	        <input type="email" name="email" class="form-control" placeholder="E-mail">
+	        <input type="password" name="password" class="form-control" placeholder="Password">
+	        	<select name="userType" class="form-control">
+				  <option value="Customer">Customer</option>
+				  <option value="Provider">Provider</option>
+				</select>
+	        <input type="submit" value="Register" class="form-control btn btn-default">
+	    </div>
+    </form>
+</template>
+
+<template name="login">
+    <h2>Login</h2>
+    <h3>{{message}}</h3>
+    <form class="login">
+    	<div class="form-group">
+	        <input type="email" name="email" class="form-control"  placeholder="E-mail">
+	        <input type="password" name="password" class="form-control"  placeholder="Password">
+	        <input type="submit" value="Login" class="form-control btn btn-default">
+        </div>
+    </form>
+    <button class="register btn btn-default">
+    	Register
+    </button>
+</template>
+
+<template name="loginToOauth">
+    <h2>Login</h2>
+    <h3>{{message}}</h3>
+    <form class="login">
+    	<div class="form-group">
+	        <input type="email" name="email" class="form-control"  placeholder="E-mail">
+	        <input type="password" name="password" class="form-control"  placeholder="Password">
+	        <input type="submit" value="Login" class="form-control btn btn-default">
+	    </div>
+    </form>
+</template>
+
+<template name="fitbitInfo">
+    <h2>Fitbit Info</h2>
+    <h3>{{message}}</h3>
 </template>

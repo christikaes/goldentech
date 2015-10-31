@@ -1,1 +1,14 @@
 /* CSS declarations go here */
+body {
+	max-width: 400px;
+	margin: 10px auto;
+}
+
+.form-control {
+	margin: 10px;
+}
+
+button {
+	width: 100%;
+	margin: 10px;
+}
