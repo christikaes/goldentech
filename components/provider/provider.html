@@ -1,0 +1,71 @@
+<template name="provider">
+	<h1 class="glyphicon glyphicon-grain"> Wellness Common </h1>
+		{{#if noCustomers}}
+			You have no customers. Ask your customers to share data with you
+		{{/if}}
+
+    	{{#each customers}}
+		  <div class="panel panel-{{this.profile.class}}">
+		    <div class="panel-heading" role="tab" id="heading{{this._id}}">
+		      <h4 class="panel-title">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapse{{this._id}}">
+		          {{this.profile.profileInfo.firstname}} {{this.profile.profileInfo.lastname}}
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapse{{this._id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{this._id}}">
+		      	<div class="panel-body">
+
+		     		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					  <div class="panel">
+					    <div class="panel-heading" role="tab" id="headingHealth{{this._id}}">
+					      <h4 class="panel-title">
+					        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseHealth{{this._id}}" aria-expanded="false" aria-controls="collapseHealth{{this._id}}">
+					          Health
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseHealth{{this._id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingHealth{{this._id}}">
+					      <div class="panel-body">
+					     		<ul class="list-group">
+									{{#each profile.healthInfo}}
+									  <li class="list-group-item list-group-item-{{class}}">{{title}} : {{value}}</li>
+									{{/each}}
+								</ul>
+					      </div>
+					    </div>
+					  </div>
+
+					    <div class="panel">
+						    <div class="panel-heading" role="tab" id="headingProfile{{this._id}}">
+						      <h4 class="panel-title">
+						        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile{{this._id}}" aria-expanded="false" aria-controls="collapseProfile{{this._id}}">
+						          Profile
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseProfile{{this._id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingProfile{{this._id}}">
+						      <div class="panel-body">
+						     		<ul class="list-group">
+									  <li class="list-group-item"><b>Name:</b> {{profile.profileInfo.firstname}} {{profile.profileInfo.lastname}}</li>
+									  <li class="list-group-item"><b>User Type:</b> {{profile.profileInfo.userType}}</li>
+									  <li class="list-group-item"><b>Date of Birth:</b> {{profile.profileInfo.date}}</li>
+									  <li class="list-group-item"><b>Address:</b> {{profile.profileInfo.address}}</li>
+									  <li class="list-group-item"><b>Phone:</b> {{profile.profileInfo.phone}}</li>
+									</ul>
+						      </div>
+						    </div>
+						</div>
+
+
+
+			    </div>
+		      </div>
+		    </div>
+		  </div>
+    	{{/each}}
+
+    	<button class="logout btn btn-default" >
+			Logout
+		</button>
+</template>

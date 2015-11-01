@@ -1,0 +1,11 @@
+<template name="start">
+	{{#if currentUser}}
+		{{#if isCustomer}}
+			{{>home}}
+		{{else}}
+			{{>provider}}
+		{{/if}}
+    {{else}}
+    	{{>login}}
+    {{/if}}
+</template>

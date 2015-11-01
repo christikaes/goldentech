@@ -1,5 +1,3 @@
-
-
 if (Meteor.isClient) {
 
   // INSTEAD OF STORING THESE AS COOKIES SAVE THEN IN THE DATABASE
@@ -27,6 +25,8 @@ if (Meteor.isClient) {
     Meteor.call('getRequestToken', function(error, result){
       if(error){
         console.log(error)
+        //return to home page
+        Router.go("/start")
       } else {
         console.log(result)
         // Meteor.user().profile.requestToken = result[0];
@@ -95,6 +95,8 @@ if (Meteor.isClient) {
     Meteor.call('getAccessToken', args , function(error, result){
       if(error){
         console.log(error)
+        //return to home page
+        Router.go("/start")
       } else if(result.length > 0) {
         console.log(result)
         
@@ -114,49 +116,17 @@ if (Meteor.isClient) {
         console.log(Meteor.user().profile)
         console.log("!!!!!!!!!!!!!!!!")
 
-
-
         //return to home page
-        Router.go("/home")
+        Router.go("/start")
       }
     });
   })
-
-  Template.home.helpers({
-    userType: function () {
-      return Meteor.user().profile.userType;
-    }
-  });
-
-  Router.route('/home', function(){
-    this.render('home');
-  })
-
-  Template.register.helpers({
-    message: function () {
-      return Session.get('registerError');
-    }
-  });
-
-  Router.route('/register', function(){
-    this.render('register');
-  })
-
-  Template.login.helpers({
-    message: function () {
-      return Session.get('loginError');
-    }
-  });
 
   Template.loginToOauth.helpers({
     message: function () {
       return Session.get('loginToOauthError');
     }
   });
-
-  Router.route('/login', function(){
-    this.render('login');
-  })
 
   Router.route('/loginToOauth', function(){
     this.render('loginToOauth');
@@ -180,6 +150,8 @@ if (Meteor.isClient) {
       console.log("BACK")
       if(error){
         console.log(error)
+        //return to home page
+        Router.go("/start")
       } else {
         console.log(result)
         // Meteor.user().profile.requestToken = result[0];
@@ -187,59 +159,45 @@ if (Meteor.isClient) {
 
         // console.log(result)
 
-        Session.set('steps', result.lifetime.tracker.steps);        
+        Session.set('steps', result.lifetime.tracker.steps);  
+
+        var steps = result.lifetime.tracker.steps;
+        var floors = result.lifetime.tracker.floors;
+        var distance = result.lifetime.tracker.distance;
+        var caloriesOut = result.lifetime.tracker.caloriesOut;
+
+        console.log(steps)
+
+        var newHealthInfo = Meteor.user().profile.healthInfo;
+        _.forEach(newHealthInfo, function(info){
+          if(info.id == 5){
+            info.value = steps;
+            // info.class = newClass;
+          }
+          if(info.id == 6){
+            info.value = floors;
+            // info.class = newClass;
+          }
+          if(info.id == 7){
+            info.value = distance;
+            // info.class = newClass;
+          }
+          if(info.id == 8){
+            info.value = caloriesOut;
+            // info.class = newClass;
+          }
+        })
+
+        Meteor.users.update(Meteor.user()._id, {$set: {"profile.healthInfo": newHealthInfo}});
+          Session.set("healthInfo", Meteor.user().profile.healthInfo)
+     
+        //return to home page
+        Router.go("/start")      
       }
     });
 
     this.render('fitbitInfo');
   })
-
-  Template.register.events({
-      'submit form': function(event){
-          event.preventDefault();
-          var email = $('[name=email]').val();
-          var password = $('[name=password]').val();
-          var userType = $('[name=userType]').val();
-          Accounts.createUser({
-              email: email,
-              password: password,
-              profile: {
-                userType: userType,
-                requestToken: "",
-                requestTokenSecret: "",
-                accessToken: "",
-                accessTokenSecret: "",
-                fitbitInfo: null
-              }
-          }, function(error){
-              if(error){
-                  Session.set('registerError', error.reason)
-                  console.log(error.reason); // Output error if registration fails
-              } else {
-                  Router.go("login"); // Redirect user if registration succeeds
-              }
-          });
-      }
-  });
-
-  Template.login.events({
-      'submit form': function(event){
-          event.preventDefault();
-          var email = $('[name=email]').val();
-          var password = $('[name=password]').val();
-          Meteor.loginWithPassword(email, password, function(error){
-              if(error){
-                  Session.set('loginError', error.reason)
-                  console.log(error.reason);
-              } else {
-                  Router.go("home");
-              }
-          });
-      },
-      'click .register': function() {
-        Router.go('register')
-      }
-  });
 
   Template.loginToOauth.events({
       'submit form': function(event){
@@ -259,26 +217,6 @@ if (Meteor.isClient) {
       }
   });
 
-  Template.home.events({
-    'click .register': function() {
-      Router.go('register')
-    },
-    'click .login': function() {
-      Router.go('login')
-    },
-    'click .logout': function(){
-      Meteor.logout();
-      Router.go('home')
-    },
-    'click .fitbitSetup': function(){
-      Router.go('fitbitSetup')
-    },
-    'click .fitbitInfo': function(){
-      Router.go('fitbitInfo')
-    }
-    
-  })
-
 }
 
 if (Meteor.isServer) {
@@ -288,7 +226,9 @@ if (Meteor.isServer) {
     Fitbit = Meteor.npmRequire('fitbit-node');
     config = {  CONSUMER_KEY : "38105a4a7528a35ea9ca6aea7940d697", 
                 CONSUMER_SECRET: "26bccb7fb8d2f2ac92647c664b2465d7"}
-      
+    
+    Twilio = Meteor.npmRequire('twilio');
+
     // Routes
     Router.route('/fitbit-authorization/:requestToken', {where: 'server'}).get(function() {
       this.response.writeHead(302, {

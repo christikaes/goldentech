@@ -1,0 +1,181 @@
+<template name="home">
+	<h1 class="glyphicon glyphicon-grain"> Wellness Common </h1>
+	
+	<ul class="nav nav-tab nav-justified">
+	  <li role="presentation" class="active">
+	  	<a href="#health" aria-controls="health" role="tab" data-toggle="tab" >
+	  		<span class="glyphicon glyphicon-plus"></span>
+	  	</a>
+	  	
+	  </li>
+	  <li role="presentation">
+	  	<a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
+	  		<span class="glyphicon glyphicon-tasks"></span>
+	  	</a>
+	  	
+	  </li>
+	  <li role="presentation">
+	  	<a href="#monitors" aria-controls="monitors" role="tab" data-toggle="tab">
+	  		<span class="glyphicon glyphicon-eye-open"></span>
+	  	</a>
+	  </li>
+	  <li role="presentation">
+	  	<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+	  		<span class="glyphicon glyphicon-user"></span>
+	  	</a>
+	  </li>
+	</ul>
+
+<!-- <div class="panel panel-success">...</div>
+<div class="panel panel-info">...</div>
+<div class="panel panel-warning">...</div>
+<div class="panel panel-danger">...</div>
+
+
+ -->
+
+	
+  <!-- Tab panes -->
+  <div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane active" id="health">
+	    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	    	{{#each health}}
+			  <div class="panel panel-{{this.class}}">
+			    <div class="panel-heading" role="tab" id="heading{{this.id}}">
+			      <h4 class="panel-title">
+			        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{this.id}}" aria-expanded="false" aria-controls="collapse{{this.id}}">
+			          {{this.title}}
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapse{{this.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{this.id}}">
+			      <div class="panel-body">
+			      	{{#if this.isRange}}
+			      		<div class="input-group">
+			      		  <span class="input-group-addon glyphicon glyphicon-thumbs-up" id="sizing-addon1"></span>
+					      <input type="range" name="{{this.id}}" min="0" max="100" step="10" value="{{this.value}}" class="form-control">
+					      <span class="input-group-addon glyphicon glyphicon-thumbs-down" id="sizing-addon1"></span>
+					      <span class="input-group-btn">
+					        <button class="btn btn-success update" type="button">Update</button>
+					      </span>
+					    </div>
+			      	{{else}}
+					    <div class="input-group">
+					      <input type="text" class="form-control" name="{{this.id}}" value="{{this.value}}">
+					      <span class="input-group-btn">
+					        <button class="btn btn-success update" type="button">Update</button>
+					      </span>
+					    </div>
+			      	{{/if}}
+
+			      </div>
+			    </div>
+			  </div>
+	    	{{/each}}
+	    </div>
+	</div>
+
+    <div role="tabpanel" class="tab-pane" id="devices">
+    	<div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		      	Fitbit
+		      </h4>
+		    </div>
+    		 <div class="panel-body">
+				<button class="fitbitSetup btn btn-default">
+					Setup Fitbit
+				</button>
+
+				<button class="fitbitInfo btn btn-default">
+					Fitbit Info
+				</button>
+		      </div>
+    	</div>
+    	<div class="panel panel-info">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		      	+ Add New Device
+		      </h4>
+		    </div>
+    		<div class="panel-body collapse">
+				Eg: Glucose measurement	
+		    </div>
+    	</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="monitors">
+    	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	    	{{#each monitors}}
+			  <div class="panel panel-{{this.class}}">
+			    <div class="panel-heading" role="tab" id="heading{{this._id}}">
+			      <h4 class="panel-title">
+			        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{this._id}}" aria-expanded="false" aria-controls="collapse{{this._id}}">
+			          {{this.profile.profileInfo.firstname}} {{this.profile.profileInfo.lastname}}
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapse{{this._id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{this._id}}">
+			      <div class="panel-body">
+
+			        <ul class="list-group">
+					  <li class="list-group-item"><b>Name:</b> {{this.profile.profileInfo.firstname}} {{this.profile.profileInfo.lastname}}</li>
+					  <li class="list-group-item"><b>User Type:</b> {{this.profile.profileInfo.userType}}</li>
+					  <li class="list-group-item"><b>Date of Birth:</b> {{this.profile.profileInfo.date}}</li>
+					  <li class="list-group-item"><b>Address:</b> {{this.profile.profileInfo.address}}</li>
+					  <li class="list-group-item"><b>Phone:</b> {{this.profile.profileInfo.phone}}</li>
+					</ul>
+			      </div>
+			    </div>
+			  </div>
+	    	{{/each}}
+
+	    	 <div class="panel panel-info">
+			    <div class="panel-heading" role="tab" id="headingMonitor">
+			      <h4 class="panel-title">
+			        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseMonitor" aria-expanded="false" aria-controls="collapseMonitor">
+			          + Add Monitor
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseMonitor" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingMonitor">
+			      <div class="panel-body">
+				    <form class="monitor">
+				    	<div class="form-group">
+					        <input type="phone" name="phoneNum" class="form-control"  placeholder="Phone Number">
+
+					        <input type="submit" value="Add Monitor" class="form-control btn btn-default">
+				        </div>
+				        {{#if monitorsError}}
+				    		<div>
+				    			Could not find this person. Would you like to send them a message to get the app?
+				    		</div>
+				    		<button class="sendSMS">
+				    			Send SMS
+				    		</button>
+				    	{{/if}}
+				    </form>
+			      </div>
+			    </div>
+			  </div>
+
+	    </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+    	<ul class="list-group">
+		  <li class="list-group-item"><b>Name:</b> {{profile.firstname}} {{profile.lastname}}</li>
+		  <li class="list-group-item"><b>User Type:</b> {{profile.userType}}</li>
+		  <li class="list-group-item"><b>Date of Birth:</b> {{profile.date}}</li>
+		  <li class="list-group-item"><b>Address:</b> {{profile.address}}</li>
+		  <li class="list-group-item"><b>Phone:</b> {{profile.phone}}</li>
+		</ul>
+		<button class="logout btn btn-default" >
+			Logout
+		</button>
+    </div>
+  </div>
+
+  <button class="glyphicon glyphicon-exclamation-sign alert btn btn-danger btn-lg"> Alert! </button>
+
+
+</template>

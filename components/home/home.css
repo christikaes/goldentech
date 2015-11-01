@@ -1,0 +1,29 @@
+a {
+	color: #333;
+}
+
+.nav {
+	font-size: 30px;
+	color: #333;
+}
+
+.alert{
+	width: 100%;
+	/*margin: 10px;*/
+	font-size: 24px;
+
+}
+
+.nav .active .glyphicon{
+	color: #CDFFCD;
+}
+
+ul.nav a:hover,
+ul.nav a:focus  { 
+	background-color: transparent;	
+	color: #CDFFCD !important; 
+}
+/*
+button {
+	margin-top: 0
+}*/

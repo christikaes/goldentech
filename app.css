@@ -1,14 +1,27 @@
 /* CSS declarations go here */
+html {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
 body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 	max-width: 400px;
-	margin: 10px auto;
+	margin: 0 auto;
+	background-color: #4ec960;
+	color: #333;
+	text-align: center;
 }
-
+/*
 .form-control {
-	margin: 10px;
-}
+	margin: 5px 0;
+	padding: 5px;
+}*/
 
 button {
 	width: 100%;
-	margin: 10px;
 }
